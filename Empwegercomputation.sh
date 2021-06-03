@@ -1,23 +1,30 @@
-isfullTime=1
-isPartTime=2
-workingHr=0
-perHrSalary=20
-MonthlyWage=0
-day=0
-while [ $day -le 20 ]
+isPartTime=1
+isfullTime=2
+totalSalary=0
+empRatePerHr=20
+numWorkingDays=0
+hrcheck=0
+while [ $hrcheck -le 100 ] || [  $numWorkingDays -le 20 ]
 do
-        check=$(($RANDOM%3))
-        if [ $check -eq $isfullTime ]
-        then
-                workingHr=8
-        elif [ $check -eq $isPartTime ]
-        then
-                workingHr=8
-        else
-                workingHr=0
-        fi
-
-        MonthlyWage=$(($MonthlyWage+($workingHr*$perHrSalary)))
-        ((day++))
+        empCheck=$((RANDOM%3));
+                case $empCheck in
+                        $isfullTime)
+                                empHr=8
+                                ;;
+                        $isPartTime)
+                                empHr=4
+                                ;;
+                        *)
+                        empHr=0
+                                ;;
+                esac
+      hrcheck=$(($hrcheck+$empHr))
+      salary=$(($empHr*$empRatePerHr))
+      Dailywage[$numWorkingDays]=$salary
+      totalSalary=$(($totalSalary+$salary))
+       totalwage[$numWorkingDays]=$totalSalary
+      ((numWorkingDays++))
 done
-echo " Employee Monthly Wage =" $MonthlyWage
+echo "Total salay ="${totalwage[@]}
+echo "Daily salary="${Dailywage[@]}
+
